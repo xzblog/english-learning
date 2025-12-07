@@ -1,4 +1,4 @@
-import type { Word } from '../types';
+import type { Word } from '../../types';
 
 // 初中词汇 - 第四部分 (D-E开头)
 export const juniorVocabularyPartD: Word[] = [

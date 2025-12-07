@@ -1,4 +1,4 @@
-import type { Word } from '../types';
+import type { Word } from '../../types';
 
 // 初中词汇 - 第三部分 (C-E开头)
 export const juniorVocabularyPartC: Word[] = [
