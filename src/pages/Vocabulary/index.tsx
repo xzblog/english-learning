@@ -15,6 +15,10 @@ export function Vocabulary() {
   const level = (searchParams.get("level") || "all") as WordLevel | "all";
   const { wordProgress, favorites } = useLearningStore();
 
+  // Letter filter
+  const [letterFilter, setLetterFilter] = useState<string>("all");
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
   const allWords = useMemo(() => {
     if (searchQuery) {
       return searchWords(searchQuery);
@@ -26,21 +30,29 @@ export function Vocabulary() {
   const [filter, setFilter] = useState<"all" | "new" | "learning" | "mastered" | "favorites">("all");
 
   const filteredWords = useMemo(() => {
+    let words = allWords;
+
+    // Apply letter filter first
+    if (letterFilter !== "all") {
+      words = words.filter((w) => w.word[0].toUpperCase() === letterFilter);
+    }
+
+    // Then apply status filter
     switch (filter) {
       case "new":
-        return allWords.filter((w) => !wordProgress[w.id] || wordProgress[w.id].status === "new");
+        return words.filter((w) => !wordProgress[w.id] || wordProgress[w.id].status === "new");
       case "learning":
-        return allWords.filter(
+        return words.filter(
           (w) => wordProgress[w.id]?.status === "learning" || wordProgress[w.id]?.status === "reviewing"
         );
       case "mastered":
-        return allWords.filter((w) => wordProgress[w.id]?.status === "mastered");
+        return words.filter((w) => wordProgress[w.id]?.status === "mastered");
       case "favorites":
-        return allWords.filter((w) => favorites.includes(w.id));
+        return words.filter((w) => favorites.includes(w.id));
       default:
-        return allWords;
+        return words;
     }
-  }, [allWords, filter, wordProgress, favorites]);
+  }, [allWords, filter, letterFilter, wordProgress, favorites]);
 
   const currentWord = filteredWords[currentIndex];
 
@@ -141,6 +153,31 @@ export function Vocabulary() {
             {f === "learning" && "📖 学习中"}
             {f === "mastered" && "✅ 已掌握"}
             {f === "favorites" && "⭐ 生词本"}
+          </button>
+        ))}
+      </div>
+
+      {/* Letter Filter */}
+      <div className="letter-filter">
+        <button
+          className={`letter-btn ${letterFilter === "all" ? "active" : ""}`}
+          onClick={() => {
+            setLetterFilter("all");
+            setCurrentIndex(0);
+          }}
+        >
+          全部
+        </button>
+        {letters.map((letter) => (
+          <button
+            key={letter}
+            className={`letter-btn ${letterFilter === letter ? "active" : ""}`}
+            onClick={() => {
+              setLetterFilter(letter);
+              setCurrentIndex(0);
+            }}
+          >
+            {letter}
           </button>
         ))}
       </div>

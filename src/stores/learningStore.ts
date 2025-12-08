@@ -33,6 +33,8 @@ interface LearningState {
 
   // Actions
   learnWord: (wordId: string) => void;
+  markWordAsLearning: (wordId: string) => void;
+  markWordAsMastered: (wordId: string) => void;
   reviewWord: (wordId: string, correct: boolean) => void;
   toggleFavorite: (wordId: string) => void;
   addMistake: (wordId: string) => void;
@@ -81,8 +83,13 @@ export const useLearningStore = create<LearningState>()(
         set((state) => {
           const existingProgress = state.wordProgress[wordId];
 
-          // If already learned, don't count again
-          if (existingProgress?.status !== 'new') {
+          // If already mastered, don't change
+          if (existingProgress?.status === 'mastered') {
+            return state;
+          }
+
+          // If already learning or reviewing, just move to next
+          if (existingProgress?.status === 'learning' || existingProgress?.status === 'reviewing') {
             return state;
           }
 
@@ -131,6 +138,65 @@ export const useLearningStore = create<LearningState>()(
 
         // Update daily record
         get().updateDailyRecord(1, 0, 0);
+      },
+
+      markWordAsLearning: (wordId: string) => {
+        const now = Date.now();
+
+        set((state) => {
+          const existingProgress = state.wordProgress[wordId];
+
+          // If already learning, reviewing, or mastered, don't change
+          if (existingProgress?.status && existingProgress.status !== 'new') {
+            return state;
+          }
+
+          const newProgress: WordProgress = {
+            wordId,
+            status: 'learning',
+            correctCount: 0,
+            wrongCount: 0,
+            lastReviewedAt: now,
+            nextReviewAt: getNextReviewDate(0),
+            learnedAt: now
+          };
+
+          return {
+            wordProgress: {
+              ...state.wordProgress,
+              [wordId]: newProgress
+            }
+          };
+        });
+      },
+
+      markWordAsMastered: (wordId: string) => {
+        const now = Date.now();
+
+        set((state) => {
+          const existingProgress = state.wordProgress[wordId];
+
+          const newProgress: WordProgress = {
+            wordId,
+            status: 'mastered',
+            correctCount: (existingProgress?.correctCount || 0) + 1,
+            wrongCount: existingProgress?.wrongCount || 0,
+            lastReviewedAt: now,
+            nextReviewAt: undefined,
+            learnedAt: existingProgress?.learnedAt || now
+          };
+
+          // Remove from review queue if present
+          const newReviewQueue = state.reviewQueue.filter(r => r.wordId !== wordId);
+
+          return {
+            wordProgress: {
+              ...state.wordProgress,
+              [wordId]: newProgress
+            },
+            reviewQueue: newReviewQueue
+          };
+        });
       },
 
       reviewWord: (wordId: string, correct: boolean) => {

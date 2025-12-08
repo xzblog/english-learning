@@ -129,6 +129,40 @@
   color: white;
 }
 
+/* Letter Filter */
+.letter-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.letter-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 var(--spacing-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.letter-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.letter-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
 /* Learn Action */
 .learn-action {
   display: flex;
@@ -137,9 +171,21 @@
 
 /* Word List */
 .word-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .word-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .word-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .word-list-item {

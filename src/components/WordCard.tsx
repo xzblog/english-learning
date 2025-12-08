@@ -15,7 +15,8 @@ export function WordCard({ word, mode, onNext, onAnswer }: WordCardProps) {
   const [flipped, setFlipped] = useState(false);
   const [showExample, setShowExample] = useState(false);
   const { speak } = useSpeech();
-  const { toggleFavorite, favorites, learnWord, getWordProgress } = useLearningStore();
+  const { toggleFavorite, favorites, learnWord, markWordAsLearning, markWordAsMastered, getWordProgress } =
+    useLearningStore();
 
   const progress = getWordProgress(word.id);
   const isFavorite = favorites.includes(word.id);
@@ -39,7 +40,14 @@ export function WordCard({ word, mode, onNext, onAnswer }: WordCardProps) {
   };
 
   const handleLearn = () => {
+    // Mark as learning when user clicks continue
+    markWordAsLearning(word.id);
     learnWord(word.id);
+    if (onNext) onNext();
+  };
+
+  const handleMastered = () => {
+    markWordAsMastered(word.id);
     if (onNext) onNext();
   };
 
@@ -180,6 +188,17 @@ export function WordCard({ word, mode, onNext, onAnswer }: WordCardProps) {
               >
                 再看一次
               </button>
+              {progress?.status !== "mastered" && (
+                <button
+                  className="btn btn-success"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleMastered();
+                  }}
+                >
+                  已掌握 ✓
+                </button>
+              )}
               <button
                 className="btn btn-primary"
                 onClick={(e) => {
@@ -187,7 +206,7 @@ export function WordCard({ word, mode, onNext, onAnswer }: WordCardProps) {
                   handleLearn();
                 }}
               >
-                {progress?.status ? "继续" : "已学会 ✓"}
+                {progress?.status === "mastered" ? "下一个" : "继续"}
               </button>
             </div>
           )}
