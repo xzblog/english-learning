@@ -1,0 +1,36 @@
+import type { Word } from '../../types';
+
+// 高中词汇 - (A开头)
+export const seniorVocabularyPartA: Word[] = [
+  { id: 's001', word: 'abandon', phonetic: '/əˈbændən/', meanings: [{ pos: 'v', definition: '放弃；抛弃' }], examples: [{ en: 'They had to abandon their home.', cn: '他们不得不离开家。' }], level: 'senior' },
+  { id: 's002', word: 'abstract', phonetic: '/ˈæbstrækt/', meanings: [{ pos: 'adj', definition: '抽象的' }], examples: [{ en: 'Abstract art is interesting.', cn: '抽象艺术很有趣。' }], level: 'senior' },
+  { id: 's003', word: 'abundant', phonetic: '/əˈbʌndənt/', meanings: [{ pos: 'adj', definition: '丰富的' }], examples: [{ en: 'China has abundant resources.', cn: '中国有丰富的资源。' }], level: 'senior' },
+  { id: 's004', word: 'academic', phonetic: '/ˌækəˈdemɪk/', meanings: [{ pos: 'adj', definition: '学术的' }], examples: [{ en: 'Academic achievement is important.', cn: '学业成就很重要。' }], level: 'senior' },
+  { id: 's005', word: 'accelerate', phonetic: '/əkˈseləreɪt/', meanings: [{ pos: 'v', definition: '加速' }], examples: [{ en: 'The car accelerated quickly.', cn: '汽车迅速加速。' }], level: 'senior' },
+  { id: 's006', word: 'acceptable', phonetic: '/əkˈseptəbl/', meanings: [{ pos: 'adj', definition: '可接受的' }], examples: [{ en: 'This is acceptable.', cn: '这是可以接受的。' }], level: 'senior' },
+  { id: 's007', word: 'access', phonetic: '/ˈækses/', meanings: [{ pos: 'n', definition: '进入；获取' }, { pos: 'v', definition: '访问' }], examples: [{ en: 'Access to education is a right.', cn: '接受教育是一项权利。' }], level: 'senior' },
+  { id: 's008', word: 'accommodation', phonetic: '/əˌkɒməˈdeɪʃn/', meanings: [{ pos: 'n', definition: '住宿' }], examples: [{ en: 'We need to find accommodation.', cn: '我们需要找住处。' }], level: 'senior' },
+  { id: 's009', word: 'accompany', phonetic: '/əˈkʌmpəni/', meanings: [{ pos: 'v', definition: '陪伴' }], examples: [{ en: 'I will accompany you.', cn: '我会陪你。' }], level: 'senior' },
+  { id: 's010', word: 'accomplish', phonetic: '/əˈkɒmplɪʃ/', meanings: [{ pos: 'v', definition: '完成；实现' }], examples: [{ en: 'We accomplished our goal.', cn: '我们完成了目标。' }], level: 'senior' },
+  { id: 's011', word: 'account', phonetic: '/əˈkaʊnt/', meanings: [{ pos: 'n', definition: '账户；描述' }], examples: [{ en: 'I have a bank account.', cn: '我有一个银行账户。' }], level: 'senior' },
+  { id: 's012', word: 'accurate', phonetic: '/ˈækjərət/', meanings: [{ pos: 'adj', definition: '准确的' }], examples: [{ en: 'The data is accurate.', cn: '数据是准确的。' }], level: 'senior' },
+  { id: 's013', word: 'accuse', phonetic: '/əˈkjuːz/', meanings: [{ pos: 'v', definition: '指控；谴责' }], examples: [{ en: 'He was accused of lying.', cn: '他被指控说谎。' }], level: 'senior' },
+  { id: 's014', word: 'acknowledge', phonetic: '/əkˈnɒlɪdʒ/', meanings: [{ pos: 'v', definition: '承认；感谢' }], examples: [{ en: 'I acknowledge my mistake.', cn: '我承认我的错误。' }], level: 'senior' },
+  { id: 's015', word: 'acquire', phonetic: '/əˈkwaɪər/', meanings: [{ pos: 'v', definition: '获得；学到' }], examples: [{ en: 'Acquire new skills.', cn: '获得新技能。' }], level: 'senior' },
+  { id: 's016', word: 'adapt', phonetic: '/əˈdæpt/', meanings: [{ pos: 'v', definition: '适应' }], examples: [{ en: 'We must adapt to changes.', cn: '我们必须适应变化。' }], level: 'senior' },
+  { id: 's017', word: 'addicted', phonetic: '/əˈdɪktɪd/', meanings: [{ pos: 'adj', definition: '上瘾的' }], examples: [{ en: 'He is addicted to games.', cn: '他沉迷于游戏。' }], level: 'senior' },
+  { id: 's018', word: 'adequate', phonetic: '/ˈædɪkwət/', meanings: [{ pos: 'adj', definition: '足够的' }], examples: [{ en: 'We have adequate supplies.', cn: '我们有充足的供应。' }], level: 'senior' },
+  { id: 's019', word: 'adjust', phonetic: '/əˈdʒʌst/', meanings: [{ pos: 'v', definition: '调整' }], examples: [{ en: 'Adjust the volume.', cn: '调整音量。' }], level: 'senior' },
+  { id: 's020', word: 'administration', phonetic: '/ədˌmɪnɪˈstreɪʃn/', meanings: [{ pos: 'n', definition: '管理；行政' }], examples: [{ en: 'The school administration...', cn: '学校管理层...' }], level: 'senior' },
+  { id: 's021', word: 'admire', phonetic: '/ədˈmaɪər/', meanings: [{ pos: 'v', definition: '钦佩；欣赏' }], examples: [{ en: 'I admire your courage.', cn: '我钦佩你的勇气。' }], level: 'senior' },
+  { id: 's022', word: 'admission', phonetic: '/ədˈmɪʃn/', meanings: [{ pos: 'n', definition: '入场；承认' }], examples: [{ en: 'Free admission.', cn: '免费入场。' }], level: 'senior' },
+  { id: 's023', word: 'admit', phonetic: '/ədˈmɪt/', meanings: [{ pos: 'v', definition: '承认；准许进入' }], examples: [{ en: 'I admit I was wrong.', cn: '我承认我错了。' }], level: 'senior' },
+  { id: 's024', word: 'adolescent', phonetic: '/ˌædəˈlesnt/', meanings: [{ pos: 'n', definition: '青少年' }], examples: [{ en: 'Adolescents face challenges.', cn: '青少年面临挑战。' }], level: 'senior' },
+  { id: 's025', word: 'adopt', phonetic: '/əˈdɒpt/', meanings: [{ pos: 'v', definition: '采纳；收养' }], examples: [{ en: 'Adopt new methods.', cn: '采用新方法。' }], level: 'senior' },
+  { id: 's026', word: 'advanced', phonetic: '/ədˈvɑːnst/', meanings: [{ pos: 'adj', definition: '先进的；高级的' }], examples: [{ en: 'Advanced technology.', cn: '先进技术。' }], level: 'senior' },
+  { id: 's027', word: 'advocate', phonetic: '/ˈædvəkeɪt/', meanings: [{ pos: 'v', definition: '提倡' }], examples: [{ en: 'Advocate for change.', cn: '倡导变革。' }], level: 'senior' },
+  { id: 's028', word: 'affair', phonetic: '/əˈfeər/', meanings: [{ pos: 'n', definition: '事务' }], examples: [{ en: 'Current affairs.', cn: '时事。' }], level: 'senior' },
+  { id: 's029', word: 'affect', phonetic: '/əˈfekt/', meanings: [{ pos: 'v', definition: '影响' }], examples: [{ en: 'This will affect you.', cn: '这会影响你。' }], level: 'senior' },
+  { id: 's030', word: 'affection', phonetic: '/əˈfekʃn/', meanings: [{ pos: 'n', definition: '喜爱' }], examples: [{ en: 'Show affection.', cn: '表达爱意。' }], level: 'senior' },
+];
+

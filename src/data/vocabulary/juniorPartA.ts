@@ -1,6 +1,6 @@
 import type { Word } from '../../types';
 
-// 初中词汇 - 第一部分 (A-C开头)
+// 初中词汇 - (A开头)
 export const juniorVocabularyPartA: Word[] = [
   { id: 'j001', word: 'a', phonetic: '/ə/', meanings: [{ pos: 'art', definition: '一（个）' }], examples: [{ en: 'I have a book.', cn: '我有一本书。' }], level: 'junior' },
   { id: 'j002', word: 'ability', phonetic: '/əˈbɪləti/', meanings: [{ pos: 'n', definition: '能力；才能' }], examples: [{ en: 'She has the ability to learn quickly.', cn: '她有快速学习的能力。' }], level: 'junior' },
@@ -91,15 +91,4 @@ export const juniorVocabularyPartA: Word[] = [
   { id: 'j087', word: 'avoid', phonetic: '/əˈvɔɪd/', meanings: [{ pos: 'v', definition: '避免' }], examples: [{ en: 'Try to avoid mistakes.', cn: '尽量避免错误。' }], level: 'junior' },
   { id: 'j088', word: 'away', phonetic: '/əˈweɪ/', meanings: [{ pos: 'adv', definition: '离开' }], examples: [{ en: 'Go away!', cn: '走开！' }], level: 'junior' },
   { id: 'j089', word: 'baby', phonetic: '/ˈbeɪbi/', meanings: [{ pos: 'n', definition: '婴儿' }], examples: [{ en: 'The baby is crying.', cn: '婴儿在哭。' }], level: 'junior' },
-  { id: 'j090', word: 'back', phonetic: '/bæk/', meanings: [{ pos: 'n', definition: '背部' }, { pos: 'adv', definition: '回来' }], examples: [{ en: "I'll be back soon.", cn: '我很快回来。' }], level: 'junior' },
-  { id: 'j091', word: 'bad', phonetic: '/bæd/', meanings: [{ pos: 'adj', definition: '坏的' }], examples: [{ en: 'This is a bad idea.', cn: '这是个坏主意。' }], level: 'junior' },
-  { id: 'j092', word: 'bag', phonetic: '/bæɡ/', meanings: [{ pos: 'n', definition: '包；袋子' }], examples: [{ en: 'I put books in my bag.', cn: '我把书放进包里。' }], level: 'junior' },
-  { id: 'j093', word: 'ball', phonetic: '/bɔːl/', meanings: [{ pos: 'n', definition: '球' }], examples: [{ en: 'Throw me the ball.', cn: '把球扔给我。' }], level: 'junior' },
-  { id: 'j094', word: 'banana', phonetic: '/bəˈnɑːnə/', meanings: [{ pos: 'n', definition: '香蕉' }], examples: [{ en: 'I eat a banana every day.', cn: '我每天吃一根香蕉。' }], level: 'junior' },
-  { id: 'j095', word: 'bank', phonetic: '/bæŋk/', meanings: [{ pos: 'n', definition: '银行；岸' }], examples: [{ en: "There's a bank nearby.", cn: '附近有一家银行。' }], level: 'junior' },
-  { id: 'j096', word: 'basketball', phonetic: '/ˈbɑːskɪtbɔːl/', meanings: [{ pos: 'n', definition: '篮球' }], examples: [{ en: 'I play basketball after school.', cn: '放学后我打篮球。' }], level: 'junior' },
-  { id: 'j097', word: 'bathroom', phonetic: '/ˈbɑːθruːm/', meanings: [{ pos: 'n', definition: '浴室；洗手间' }], examples: [{ en: "Where's the bathroom?", cn: '洗手间在哪里？' }], level: 'junior' },
-  { id: 'j098', word: 'be', phonetic: '/biː/', meanings: [{ pos: 'v', definition: '是；存在' }], examples: [{ en: 'I want to be a doctor.', cn: '我想成为一名医生。' }], level: 'junior' },
-  { id: 'j099', word: 'beach', phonetic: '/biːtʃ/', meanings: [{ pos: 'n', definition: '海滩' }], examples: [{ en: 'We played on the beach.', cn: '我们在海滩上玩耍。' }], level: 'junior' },
-  { id: 'j100', word: 'bear', phonetic: '/beər/', meanings: [{ pos: 'n', definition: '熊' }, { pos: 'v', definition: '忍受' }], examples: [{ en: 'Bears sleep in winter.', cn: '熊在冬天睡觉。' }], level: 'junior' },
 ];

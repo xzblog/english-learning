@@ -1,12 +1,7 @@
 import type { Word } from '../../types';
 
-// 初中词汇 - 第四部分 (D-E开头)
+// 初中词汇 - (D开头)
 export const juniorVocabularyPartD: Word[] = [
-  { id: 'j301', word: 'culture', phonetic: '/ˈkʌltʃər/', meanings: [{ pos: 'n', definition: '文化' }], examples: [{ en: 'Chinese culture is rich.', cn: '中国文化很丰富。' }], level: 'junior' },
-  { id: 'j302', word: 'cup', phonetic: '/kʌp/', meanings: [{ pos: 'n', definition: '杯子' }], examples: [{ en: 'A cup of tea.', cn: '一杯茶。' }], level: 'junior' },
-  { id: 'j303', word: 'customer', phonetic: '/ˈkʌstəmər/', meanings: [{ pos: 'n', definition: '顾客' }], examples: [{ en: 'The customer is always right.', cn: '顾客永远是对的。' }], level: 'junior' },
-  { id: 'j304', word: 'cut', phonetic: '/kʌt/', meanings: [{ pos: 'v', definition: '切；割' }], examples: [{ en: 'Cut the cake.', cn: '切蛋糕。' }], level: 'junior' },
-  { id: 'j305', word: 'cute', phonetic: '/kjuːt/', meanings: [{ pos: 'adj', definition: '可爱的' }], examples: [{ en: 'The baby is cute.', cn: '宝宝很可爱。' }], level: 'junior' },
   { id: 'j306', word: 'dad', phonetic: '/dæd/', meanings: [{ pos: 'n', definition: '爸爸' }], examples: [{ en: 'Hi, Dad!', cn: '嗨，爸爸！' }], level: 'junior' },
   { id: 'j307', word: 'daily', phonetic: '/ˈdeɪli/', meanings: [{ pos: 'adj', definition: '每日的' }], examples: [{ en: 'I do daily exercise.', cn: '我每天锻炼。' }], level: 'junior' },
   { id: 'j308', word: 'dance', phonetic: '/dɑːns/', meanings: [{ pos: 'v', definition: '跳舞' }, { pos: 'n', definition: '舞蹈' }], examples: [{ en: 'She can dance well.', cn: '她舞跳得很好。' }], level: 'junior' },
@@ -80,26 +75,4 @@ export const juniorVocabularyPartD: Word[] = [
   { id: 'j376', word: 'dumpling', phonetic: '/ˈdʌmplɪŋ/', meanings: [{ pos: 'n', definition: '饺子' }], examples: [{ en: 'I love dumplings.', cn: '我喜欢饺子。' }], level: 'junior' },
   { id: 'j377', word: 'during', phonetic: '/ˈdjʊərɪŋ/', meanings: [{ pos: 'prep', definition: '在...期间' }], examples: [{ en: 'During the holiday.', cn: '在假期期间。' }], level: 'junior' },
   { id: 'j378', word: 'duty', phonetic: '/ˈdjuːti/', meanings: [{ pos: 'n', definition: '责任' }], examples: [{ en: "It's my duty.", cn: '这是我的责任。' }], level: 'junior' },
-  { id: 'j379', word: 'each', phonetic: '/iːtʃ/', meanings: [{ pos: 'adj', definition: '每个' }, { pos: 'pron', definition: '每个' }], examples: [{ en: 'Each student has a book.', cn: '每个学生都有一本书。' }], level: 'junior' },
-  { id: 'j380', word: 'ear', phonetic: '/ɪər/', meanings: [{ pos: 'n', definition: '耳朵' }], examples: [{ en: 'I hurt my ear.', cn: '我伤了耳朵。' }], level: 'junior' },
-  { id: 'j381', word: 'early', phonetic: '/ˈɜːli/', meanings: [{ pos: 'adj', definition: '早的' }, { pos: 'adv', definition: '早地' }], examples: [{ en: 'I woke up early.', cn: '我早起了。' }], level: 'junior' },
-  { id: 'j382', word: 'earth', phonetic: '/ɜːθ/', meanings: [{ pos: 'n', definition: '地球；土地' }], examples: [{ en: 'The Earth is round.', cn: '地球是圆的。' }], level: 'junior' },
-  { id: 'j383', word: 'easily', phonetic: '/ˈiːzɪli/', meanings: [{ pos: 'adv', definition: '容易地' }], examples: [{ en: 'I can do it easily.', cn: '我能轻松做到。' }], level: 'junior' },
-  { id: 'j384', word: 'east', phonetic: '/iːst/', meanings: [{ pos: 'n', definition: '东方' }], examples: [{ en: 'The sun rises in the east.', cn: '太阳从东方升起。' }], level: 'junior' },
-  { id: 'j385', word: 'eastern', phonetic: '/ˈiːstən/', meanings: [{ pos: 'adj', definition: '东方的' }], examples: [{ en: 'Eastern culture.', cn: '东方文化。' }], level: 'junior' },
-  { id: 'j386', word: 'easy', phonetic: '/ˈiːzi/', meanings: [{ pos: 'adj', definition: '容易的' }], examples: [{ en: "It's easy.", cn: '这很容易。' }], level: 'junior' },
-  { id: 'j387', word: 'eat', phonetic: '/iːt/', meanings: [{ pos: 'v', definition: '吃' }], examples: [{ en: 'I eat breakfast.', cn: '我吃早餐。' }], level: 'junior' },
-  { id: 'j388', word: 'edge', phonetic: '/edʒ/', meanings: [{ pos: 'n', definition: '边缘' }], examples: [{ en: 'The edge of the table.', cn: '桌子的边缘。' }], level: 'junior' },
-  { id: 'j389', word: 'education', phonetic: '/ˌedʒuˈkeɪʃn/', meanings: [{ pos: 'n', definition: '教育' }], examples: [{ en: 'Education is important.', cn: '教育很重要。' }], level: 'junior' },
-  { id: 'j390', word: 'effect', phonetic: '/ɪˈfekt/', meanings: [{ pos: 'n', definition: '影响' }], examples: [{ en: 'It has a good effect.', cn: '它有很好的效果。' }], level: 'junior' },
-  { id: 'j391', word: 'effort', phonetic: '/ˈefət/', meanings: [{ pos: 'n', definition: '努力' }], examples: [{ en: 'Make an effort.', cn: '做出努力。' }], level: 'junior' },
-  { id: 'j392', word: 'egg', phonetic: '/eɡ/', meanings: [{ pos: 'n', definition: '鸡蛋' }], examples: [{ en: 'I had an egg.', cn: '我吃了一个鸡蛋。' }], level: 'junior' },
-  { id: 'j393', word: 'eight', phonetic: '/eɪt/', meanings: [{ pos: 'num', definition: '八' }], examples: [{ en: 'Eight apples.', cn: '八个苹果。' }], level: 'junior' },
-  { id: 'j394', word: 'eighteen', phonetic: '/ˌeɪˈtiːn/', meanings: [{ pos: 'num', definition: '十八' }], examples: [{ en: 'She is eighteen.', cn: '她十八岁。' }], level: 'junior' },
-  { id: 'j395', word: 'eighth', phonetic: '/eɪtθ/', meanings: [{ pos: 'num', definition: '第八' }], examples: [{ en: 'The eighth day.', cn: '第八天。' }], level: 'junior' },
-  { id: 'j396', word: 'eighty', phonetic: '/ˈeɪti/', meanings: [{ pos: 'num', definition: '八十' }], examples: [{ en: 'Eighty years old.', cn: '八十岁。' }], level: 'junior' },
-  { id: 'j397', word: 'either', phonetic: '/ˈaɪðər/', meanings: [{ pos: 'adv', definition: '也不' }, { pos: 'pron', definition: '两者之一' }], examples: [{ en: "I don't like it either.", cn: '我也不喜欢。' }], level: 'junior' },
-  { id: 'j398', word: 'elder', phonetic: '/ˈeldər/', meanings: [{ pos: 'adj', definition: '年长的' }], examples: [{ en: 'My elder sister.', cn: '我姐姐。' }], level: 'junior' },
-  { id: 'j399', word: 'electric', phonetic: '/ɪˈlektrɪk/', meanings: [{ pos: 'adj', definition: '电的' }], examples: [{ en: 'Electric car.', cn: '电动汽车。' }], level: 'junior' },
-  { id: 'j400', word: 'electricity', phonetic: '/ɪˌlekˈtrɪsəti/', meanings: [{ pos: 'n', definition: '电' }], examples: [{ en: 'Save electricity.', cn: '节约用电。' }], level: 'junior' },
 ];
