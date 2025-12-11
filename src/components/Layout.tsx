@@ -28,7 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl group-hover:scale-110 transition-transform">
               E
             </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-white">English Learning</span>
+            <span className="font-bold text-xl text-gray-900 dark:text-white">Engify</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -91,10 +91,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-1 animate-in fade-in slide-in-from-top-2">
                     <button
                       onClick={() => signOut()}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2"
+                      className="w-full cursor-pointer text-left px-4 py-2 text-sm text-black-600 hover:bg-gray-50 dark:hover:bg-gray-900/30 flex items-center gap-2"
                     >
                       <LogOut className="w-4 h-4" />
-                      Sign Out
+                      登出
                     </button>
                   </div>
                 )}
@@ -104,7 +104,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 onClick={() => signIn()}
                 className="px-5 py-2 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-all hover:shadow-lg hover:shadow-indigo-500/30 active:scale-95"
               >
-                Sign In
+                登录
               </button>
             )}
           </div>

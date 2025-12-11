@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Github, Chromium } from "lucide-react";
+import { Github } from "lucide-react";
 import { Suspense } from "react";
 
 function LoginContent() {

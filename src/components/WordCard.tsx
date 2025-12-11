@@ -1,6 +1,6 @@
 "use client";
-
-import { useState } from "react";
+ 
+import { useState, useEffect } from "react";
 import { Volume2, Star, ChevronDown, ChevronUp } from "lucide-react";
 import type { Word, WordProgress } from "@/types";
 import { clsx } from "clsx";
@@ -23,7 +23,6 @@ export function WordCard({
   progress,
   mode,
   onNext,
-  onAnswer,
   onToggleFavorite,
   onMarkLearning,
   onMarkMastered,
@@ -31,11 +30,44 @@ export function WordCard({
 }: WordCardProps) {
   const [flipped, setFlipped] = useState(false);
   const [showExample, setShowExample] = useState(true);
+  const [ttsVoice, setTtsVoice] = useState<SpeechSynthesisVoice | null>(null);
+
+  useEffect(() => {
+    const pickVoice = () => {
+      if (!("speechSynthesis" in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      const enVoices = voices.filter((v) => (v.lang || "").toLowerCase().startsWith("en"));
+      const preferred = enVoices.find((v) => {
+        const name = (v.name || "").toLowerCase();
+        return (
+          name.includes("samantha") ||
+          name.includes("female") ||
+          name.includes("jenny") ||
+          name.includes("aria") ||
+          name.includes("zira")
+        );
+      }) || enVoices[0] || voices[0] || null;
+      setTtsVoice(preferred || null);
+    };
+    pickVoice();
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = pickVoice;
+    }
+    return () => {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
+    };
+  }, []);
 
   const speak = (text: string) => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
+      if (ttsVoice) utterance.voice = ttsVoice;
+      utterance.rate = 0.85;
+      utterance.pitch = 1.1;
+      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     }
   };

@@ -27,13 +27,13 @@ function VocabularyContent() {
   const level = searchParams.get("level") || "all";
   const [query, setQuery] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [letterFilter, setLetterFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState(() => {
     const s = (typeof window !== "undefined" ? new URLSearchParams(searchParams.toString()).get("status") : null) || "all";
     return ["all", "new", "learning", "reviewing", "mastered"].includes(s!) ? s! : "all";
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [needsRefresh, setNeedsRefresh] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -62,7 +62,7 @@ function VocabularyContent() {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["progress"] });
+      setNeedsRefresh(true);
     },
   });
 
@@ -97,6 +97,14 @@ function VocabularyContent() {
   const handleStartLearning = () => {
     setCurrentWordIndex(0);
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (needsRefresh) {
+      queryClient.invalidateQueries({ queryKey: ["progress"] });
+      setNeedsRefresh(false);
+    }
   };
 
   
@@ -221,9 +229,9 @@ function VocabularyContent() {
           {isModalOpen && currentWord && (
             <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
-              onClick={() => setIsModalOpen(false)}
+              onClick={handleCloseModal}
             >
-              <div className="relative w-full max-w-xl" onClick={(e) => e.stopPropagation()}>
+              <div className="relative w-full max-w-md" onClick={(e) => e.stopPropagation()}>
                 <WordCard
                   word={currentWord}
                   progress={progressMap[currentWord.id]}
@@ -232,7 +240,7 @@ function VocabularyContent() {
                     if (currentWordIndex < filteredWords.length - 1) {
                       setCurrentWordIndex((prev) => prev + 1);
                     } else {
-                      setIsModalOpen(false);
+                      handleCloseModal();
                     }
                   }}
                   onMarkLearning={(wordId) => updateProgressMutation.mutate({ wordId, status: "learning" })}
