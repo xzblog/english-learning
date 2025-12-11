@@ -42,6 +42,7 @@ function Ring({ percent, label, goal, progress }: { percent: number; label: stri
 }
 
 export default function Home() {
+  const signedIn = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("signedIn") === "1";
   const { data: vocabInfo } = useQuery({
     queryKey: ["vocab-total"],
     queryFn: async () => {
@@ -183,25 +184,30 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+      <main className="container mx-auto">
+        {signedIn && (
+          <div className="mb-4 px-4 py-2 rounded-lg bg-green-50 border border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400">
+            登录成功，欢迎回来！
+          </div>
+        )}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="p-3 md:p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
             <Ring percent={totals.percent} goal={totals.totalWords} progress={totals.mastered} label="总进度" />
           </div>
-          <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="p-3 md:p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
             <Ring percent={totals.todayPercent} goal={totals.target} progress={totals.todayDone} label="今日目标" />
           </div>
-          <div className="p-6 bg-white flex flex-col items-center justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="p-3 md:p-6 bg-white flex flex-col items-center justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
             <div className="text-3xl">🔥 <span className="align-middle text-gray-900 dark:text-white">0</span></div>
             <p className="mt-6 text-sm text-gray-600 dark:text-gray-300">连续学习天数</p>
           </div>
-          <div className="p-6 bg-white flex flex-col items-center  justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <div className="p-3 md:p-6 bg-white flex flex-col items-center  justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
             <div className="text-3xl">📝 <span className="align-middle text-purple-600">{totals.reviewing}</span></div>
             <p className="mt-6 text-sm text-gray-600 dark:text-gray-300">待复习单词</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-12">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 md:p-12 p-6">
           <div className="flex items-center gap-2 mb-8">
             <span className="text-xl">📊</span>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">学习统计</h2>
@@ -251,21 +257,21 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          </div>
-          <div 
-            className="mt-4 mx-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400"
-            style={{ width: `${leftBaseOffset + yearGrid.weeks.length * weekColWidth}px` }}
-          >
-            <div className="">studied 180 days in the past year</div>
-            <div className="flex items-center gap-3">
-              <span>Less</span>
-              <span className="w-3 h-3 rounded bg-gray-100 dark:bg-gray-700 inline-block" />
-              <span className="w-3 h-3 rounded bg-green-200 dark:bg-green-900/50 inline-block" />
-              <span className="w-3 h-3 rounded bg-green-300 dark:bg-green-800/60 inline-block" />
-              <span className="w-3 h-3 rounded bg-green-400 dark:bg-green-700/70 inline-block" />
-              <span className="w-3 h-3 rounded bg-green-500 dark:bg-green-600/80 inline-block" />
-              <span className="w-3 h-3 rounded bg-green-600 dark:bg-green-500 inline-block" />
-              <span>More</span>
+            <div 
+              className="mt-4 mx-auto flex justify-between items-center text-xs text-gray-500 dark:text-gray-400"
+              style={{ width: `${leftBaseOffset + yearGrid.weeks.length * weekColWidth}px` }}
+            >
+              <div className="">studied 180 days in the past year</div>
+              <div className="flex items-center gap-3">
+                <span>Less</span>
+                <span className="w-3 h-3 rounded bg-gray-100 dark:bg-gray-700 inline-block" />
+                <span className="w-3 h-3 rounded bg-green-200 dark:bg-green-900/50 inline-block" />
+                <span className="w-3 h-3 rounded bg-green-300 dark:bg-green-800/60 inline-block" />
+                <span className="w-3 h-3 rounded bg-green-400 dark:bg-green-700/70 inline-block" />
+                <span className="w-3 h-3 rounded bg-green-500 dark:bg-green-600/80 inline-block" />
+                <span className="w-3 h-3 rounded bg-green-600 dark:bg-green-500 inline-block" />
+                <span>More</span>
+              </div>
             </div>
           </div>
         </div>

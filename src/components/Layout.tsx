@@ -37,31 +37,31 @@ export function Layout({ children }: { children: React.ReactNode }) {
               href="/"
               className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 font-medium transition-colors"
             >
-              🏠 首页
+              首页
             </Link>
             <Link
               href="/vocabulary"
               className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 font-medium transition-colors"
             >
-              📚 词汇
+              词汇
             </Link>
             <Link
               href="/grammar"
               className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 font-medium transition-colors"
             >
-              📝 语法
+              语法
             </Link>
             <Link
               href="/vocabulary?status=reviewing"
               className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 font-medium transition-colors"
             >
-              🔄 复习
+              复习
             </Link>
             <Link
               href="/study-plan"
               className="text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 font-medium transition-colors"
             >
-              📅 计划
+              计划
             </Link>
 
             <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
@@ -108,6 +108,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </button>
             )}
           </div>
+          {/* Mobile User */}
+          <div className="md:hidden flex items-center gap-2">
+            {session ? (
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                {session.user?.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={session.user.image!} alt={session.user.name || "User"} className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-600" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <UserIcon className="w-5 h-5" />
+                  </div>
+                )}
+              </button>
+            ) : (
+              <button onClick={() => signIn()} className="px-3 py-1.5 bg-indigo-600 text-white rounded-full text-sm">登录</button>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -118,6 +135,43 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <p>© {new Date().getFullYear()} English Learning Platform. All rights reserved.</p>
         </div>
       </footer>
+      {/* Mobile Bottom Nav */}
+      <div className="sticky bottom-0 left-0 right-0 md:hidden bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-5 text-center">
+            <Link href="/" className="py-2 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex flex-col gap-1">
+                <span>🏠</span>
+                <span>首页</span>
+              </div>
+            </Link>
+            <Link href="/vocabulary" className="py-2 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex flex-col gap-1">
+                <span>🏠</span>
+                <span>词汇</span>
+              </div>
+            </Link>
+            <Link href="/grammar" className="py-2 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex flex-col gap-1">
+                <span>📝</span>
+                <span>语法</span>
+              </div>
+            </Link>
+            <Link href="/vocabulary?status=reviewing" className="py-2 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex flex-col gap-1">
+                <span>🔄</span>
+                <span>复习</span>
+              </div>
+            </Link>
+            <Link href="/study-plan" className="py-2 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex flex-col gap-1">
+                <span>📅</span>
+                <span>计划</span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

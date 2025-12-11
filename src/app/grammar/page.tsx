@@ -34,7 +34,7 @@ function GrammarContent() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-full">
           <PenTool className="w-6 h-6 text-purple-600 dark:text-purple-400" />

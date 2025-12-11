@@ -24,7 +24,7 @@ function LoginContent() {
 
       <div className="space-y-6">
         <button
-          onClick={() => signIn("github")}
+          onClick={() => signIn("github", { callbackUrl: "/?signedIn=1" })}
           className="w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-900 text-white hover:bg-black transition-colors"
         >
           <Github className="w-5 h-5" />

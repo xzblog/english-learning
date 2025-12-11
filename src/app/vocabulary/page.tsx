@@ -27,7 +27,8 @@ function VocabularyContent() {
   const level = searchParams.get("level") || "all";
   const [query, setQuery] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [mode, setMode] = useState<"list" | "learn">("list");
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [letterFilter, setLetterFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState(() => {
     const s = (typeof window !== "undefined" ? new URLSearchParams(searchParams.toString()).get("status") : null) || "all";
@@ -95,19 +96,13 @@ function VocabularyContent() {
   // Handlers
   const handleStartLearning = () => {
     setCurrentWordIndex(0);
-    setMode("learn");
+    setIsModalOpen(true);
   };
 
-  const handleNextWord = () => {
-    if (currentWordIndex < filteredWords.length - 1) {
-      setCurrentWordIndex((prev) => prev + 1);
-    } else {
-      setMode("list");
-    }
-  };
+  
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           {level === "senior" ? "高中词汇" : level === "junior" ? "初中词汇" : "全部词汇"}
@@ -127,7 +122,7 @@ function VocabularyContent() {
 
       {isLoadingWords ? (
         <div className="text-center py-12">加载中...</div>
-      ) : mode === "list" ? (
+      ) : (
         <div className="space-y-6">
           {/* Filters */}
           <div className="space-y-4">
@@ -190,7 +185,7 @@ function VocabularyContent() {
           </div>
 
           {/* Word Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredWords.map((word, index) => {
               const progress = progressMap[word.id];
               return (
@@ -198,7 +193,7 @@ function VocabularyContent() {
                   key={word.id}
                   onClick={() => {
                     setCurrentWordIndex(index);
-                    setMode("learn");
+                    setIsModalOpen(true);
                     // Do not automatically mark as learning on click, wait for card interaction
                   }}
                   className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-indigo-500 cursor-pointer transition-colors"
@@ -223,28 +218,28 @@ function VocabularyContent() {
               );
             })}
           </div>
-        </div>
-      ) : (
-        /* Learning Mode */
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-md mb-8 flex justify-between items-center">
-            <button onClick={() => setMode("list")} className="text-gray-600 hover:text-gray-900 dark:text-gray-400">
-              ← 返回列表
-            </button>
-            <span className="text-sm font-medium text-gray-500">
-              {currentWordIndex + 1} / {filteredWords.length}
-            </span>
-          </div>
-
-          {currentWord && (
-            <WordCard
-              word={currentWord}
-              progress={progressMap[currentWord.id]}
-              mode="learn"
-              onNext={handleNextWord}
-              onMarkLearning={(wordId) => updateProgressMutation.mutate({ wordId, status: "learning" })}
-              onMarkMastered={(wordId) => updateProgressMutation.mutate({ wordId, status: "mastered", correct: true })}
-            />
+          {isModalOpen && currentWord && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <div className="relative w-full max-w-xl" onClick={(e) => e.stopPropagation()}>
+                <WordCard
+                  word={currentWord}
+                  progress={progressMap[currentWord.id]}
+                  mode="learn"
+                  onNext={() => {
+                    if (currentWordIndex < filteredWords.length - 1) {
+                      setCurrentWordIndex((prev) => prev + 1);
+                    } else {
+                      setIsModalOpen(false);
+                    }
+                  }}
+                  onMarkLearning={(wordId) => updateProgressMutation.mutate({ wordId, status: "learning" })}
+                  onMarkMastered={(wordId) => updateProgressMutation.mutate({ wordId, status: "mastered", correct: true })}
+                />
+              </div>
+            </div>
           )}
         </div>
       )}

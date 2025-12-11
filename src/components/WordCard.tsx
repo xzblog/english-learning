@@ -30,7 +30,7 @@ export function WordCard({
   isFavorite,
 }: WordCardProps) {
   const [flipped, setFlipped] = useState(false);
-  const [showExample, setShowExample] = useState(false);
+  const [showExample, setShowExample] = useState(true);
 
   const speak = (text: string) => {
     if ("speechSynthesis" in window) {
@@ -76,7 +76,7 @@ export function WordCard({
 
   return (
     <div
-      className={twMerge("relative w-full max-w-md h-96 cursor-pointer perspective-1000 group", flipped && "flipped")}
+      className={twMerge("relative w-full max-w-md h-100 cursor-pointer perspective-1000 group", flipped && "flipped")}
       onClick={mode === "learn" ? handleFlip : undefined}
     >
       <div
@@ -176,10 +176,10 @@ export function WordCard({
             <p className="text-sm text-gray-500 dark:text-gray-400 font-serif">{word.phonetic}</p>
           </div>
 
-          <div className="space-y-3 mb-4 overflow-y-auto max-h-40">
+          <div className="space-y-3 mb-4 max-h-40">
             {word.meanings.map((m, i) => (
               <div key={i} className="flex gap-2 text-sm text-left">
-                <span className="text-gray-500 dark:text-gray-400 w-8 italic">{getPosLabel(m.pos)}</span>
+                <span className="text-gray-500 dark:text-gray-400 w-8 italic flex-shrink-0">{getPosLabel(m.pos)}</span>
                 <span className="text-gray-700 dark:text-gray-300 flex-1">{m.definition}</span>
               </div>
             ))}
@@ -214,7 +214,7 @@ export function WordCard({
             )}
 
             {mode === "learn" && (
-              <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="flex gap-3 mt-4">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -225,7 +225,7 @@ export function WordCard({
                   再看一次
                 </button>
                 {progress?.status !== "mastered" ? (
-                  <div className="flex gap-2">
+                  <>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -244,7 +244,7 @@ export function WordCard({
                     >
                       继续
                     </button>
-                  </div>
+                  </>
                 ) : (
                   <button
                     onClick={(e) => {
