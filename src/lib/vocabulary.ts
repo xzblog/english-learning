@@ -75,9 +75,11 @@ export const seniorVocabulary: Word[] = [
 export const allVocabulary: Word[] = [...juniorVocabulary, ...seniorVocabulary];
 
 // 按级别获取词汇
-export function getVocabularyByLevel(level: 'junior' | 'senior' | 'all'): Word[] {
+export function getVocabularyByLevel(level: 'junior' | 'senior' | 'cet4' | 'ielts' | 'all'): Word[] {
   if (level === 'junior') return juniorVocabulary;
   if (level === 'senior') return seniorVocabulary;
+  if (level === 'cet4') return [];
+  if (level === 'ielts') return [];
   return allVocabulary;
 }
 

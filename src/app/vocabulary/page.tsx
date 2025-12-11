@@ -1,15 +1,21 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { WordCard } from "@/components/WordCard";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import type { Word, WordProgress } from "@/types";
 
-// Fetch words from API
-const fetchWords = async (level: string, query: string) => {
-  const res = await fetch(`/api/vocabulary?level=${level}&query=${query}&limit=1000`);
+// Fetch words from API (paginated)
+const fetchWordsPage = async (level: string, query: string, letter: string, page: number) => {
+  const params = new URLSearchParams();
+  params.set("level", level);
+  if (query) params.set("query", query);
+  if (letter && letter !== "all") params.set("letter", letter);
+  params.set("page", String(page));
+  params.set("limit", "200");
+  const res = await fetch(`/api/vocabulary?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch vocabulary");
   return res.json();
 };
@@ -24,7 +30,9 @@ const fetchProgress = async () => {
 
 function VocabularyContent() {
   const searchParams = useSearchParams();
-  const level = searchParams.get("level") || "all";
+  const router = useRouter();
+  const initialLevel = searchParams.get("level") || "all";
+  const [level, setLevel] = useState(initialLevel);
   const [query, setQuery] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [letterFilter, setLetterFilter] = useState("all");
@@ -37,10 +45,21 @@ function VocabularyContent() {
 
   const queryClient = useQueryClient();
 
-  // Data fetching
-  const { data: wordsData, isLoading: isLoadingWords } = useQuery({
-    queryKey: ["vocabulary", level, query],
-    queryFn: () => fetchWords(level, query),
+  // Data fetching (infinite)
+  type VocabPageResp = { words: Word[]; total: number; page: number; totalPages: number };
+  const {
+    data: wordsPages,
+    isLoading: isLoadingWords,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<VocabPageResp>({
+    queryKey: ["vocabulary", level, query, letterFilter],
+    queryFn: ({ pageParam = 1 }) => fetchWordsPage(level, query, letterFilter, pageParam as number),
+    getNextPageParam: (lastPage) => {
+      const next = lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined;
+      return next;
+    },
   });
 
   const { data: progressData } = useQuery({
@@ -66,8 +85,8 @@ function VocabularyContent() {
     },
   });
 
-  // Processing words with filters
-  const words: Word[] = wordsData?.words || [];
+  // Processing words with filters (only status filter on client)
+  const words: Word[] = (wordsPages?.pages || []).flatMap((p) => p.words) || [];
   const progressMap: Record<string, WordProgress> = {};
   if (progressData) {
     progressData.forEach((p: WordProgress) => {
@@ -76,19 +95,40 @@ function VocabularyContent() {
   }
 
   const filteredWords = words.filter((word) => {
-    // Letter filter
-    if (letterFilter !== "all" && word.word[0].toUpperCase() !== letterFilter) return false;
-
-    // Status filter
     const status = progressMap[word.id]?.status || "new";
     if (statusFilter !== "all") {
       if (statusFilter === "new" && status !== "new") return false;
       if (statusFilter === "learning" && status !== "learning" && status !== "reviewing") return false;
       if (statusFilter === "mastered" && status !== "mastered") return false;
     }
-
     return true;
   });
+
+  // Infinite scroll observer
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      });
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, level, query, letterFilter]);
+
+  // Sync level to URL on change (avoid loops)
+  useEffect(() => {
+    const currentLevel = (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('level') : null) || 'all';
+    if (currentLevel !== level) {
+      const sp = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+      sp.set('level', level);
+      router.replace(`/vocabulary?${sp.toString()}`);
+    }
+  }, [level, router]);
 
   const currentWord = filteredWords[currentWordIndex];
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -112,9 +152,30 @@ function VocabularyContent() {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          {level === "senior" ? "高中词汇" : level === "junior" ? "初中词汇" : "全部词汇"}
-        </h1>
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">词汇</h1>
+          <div className="flex flex-wrap gap-2 ml-4">
+            {[
+              { key: "all", label: "全部" },
+              { key: "junior", label: "初中" },
+              { key: "senior", label: "高中" },
+              { key: "cet4", label: "英4" },
+              { key: "ielts", label: "雅思" },
+            ].map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => { setLevel(opt.key); setCurrentWordIndex(0); }}
+                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                  level === opt.key
+                    ? "bg-indigo-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <div className="relative w-full md:w-64">
           <input
@@ -181,7 +242,7 @@ function VocabularyContent() {
 
           {/* Action Bar */}
           <div className="flex justify-between items-center">
-            <p className="text-gray-600 dark:text-gray-400">共找到 {filteredWords.length} 个单词</p>
+            <p className="text-gray-600 dark:text-gray-400">共找到 {(wordsPages?.pages?.[0]?.total ?? filteredWords.length)} 个单词</p>
             {filteredWords.length > 0 && (
               <button
                 onClick={handleStartLearning}
@@ -225,6 +286,9 @@ function VocabularyContent() {
                 </div>
               );
             })}
+          </div>
+          <div ref={loadMoreRef} className="py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            {isFetchingNextPage ? "加载中..." : hasNextPage ? "上拉加载更多" : "已无更多"}
           </div>
           {isModalOpen && currentWord && (
             <div

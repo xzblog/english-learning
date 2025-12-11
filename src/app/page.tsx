@@ -55,6 +55,7 @@ export default function Home() {
     wordId: string;
     status: MasteryStatus;
     lastReviewedAt?: string | number | Date;
+    learnedAt?: string | number | Date;
   };
   const { data: progressData = [] } = useQuery<ProgressDoc[]>({
     queryKey: ["progress-home"],
@@ -96,6 +97,42 @@ export default function Home() {
     const todayPercent = target ? Math.min(100, Math.round((todayDone / target) * 100)) : 0;
     return { totalWords, mastered, reviewing, percent, target, todayDone, todayPercent };
   }, [vocabInfo, progressData, plans]);
+
+  const activityStats = useMemo(() => {
+    const todayStr = new Date().toDateString();
+    const todayLearned = progressData.filter((p) => (p.learnedAt ? new Date(p.learnedAt).toDateString() === todayStr : false)).length;
+
+    const keyOf = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const activeDays = new Set<string>();
+    let latest: Date | null = null;
+    progressData.forEach((p) => {
+      if (p.lastReviewedAt) {
+        const d = new Date(p.lastReviewedAt);
+        const k = keyOf(d);
+        activeDays.add(k);
+        if (!latest || d > latest) latest = d;
+      }
+      if (p.learnedAt) {
+        const d = new Date(p.learnedAt);
+        const k = keyOf(d);
+        activeDays.add(k);
+        if (!latest || d > latest) latest = d;
+      }
+    });
+
+    let streakDays = 0;
+    if (latest) {
+      const cur = new Date(latest);
+      while (true) {
+        const k = keyOf(cur);
+        if (!activeDays.has(k)) break;
+        streakDays += 1;
+        cur.setDate(cur.getDate() - 1);
+      }
+    }
+
+    return { todayLearned, streakDays };
+  }, [progressData]);
 
   const yearGrid = useMemo(() => {
     const today = new Date();
@@ -192,7 +229,7 @@ export default function Home() {
             <Ring percent={totals.todayPercent} goal={totals.target} progress={totals.todayDone} label="今日目标" />
           </div>
           <div className="p-3 md:p-6 bg-white flex flex-col items-center justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-            <div className="text-3xl">🔥 <span className="align-middle text-gray-900 dark:text-white">0</span></div>
+            <div className="text-3xl">🔥 <span className="align-middle text-gray-900 dark:text-white">{activityStats.streakDays}</span></div>
             <p className="mt-6 text-sm text-gray-600 dark:text-gray-300">连续学习天数</p>
           </div>
           <div className="p-3 md:p-6 bg-white flex flex-col items-center  justify-center dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">

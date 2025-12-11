@@ -1,5 +1,5 @@
 // Word level - junior is middle school, senior is high school
-export type WordLevel = 'junior' | 'senior';
+export type WordLevel = 'junior' | 'senior' | 'cet4' | 'ielts' | 'all';
 
 // Word mastery status
 export type MasteryStatus = 'new' | 'learning' | 'reviewing' | 'mastered';
