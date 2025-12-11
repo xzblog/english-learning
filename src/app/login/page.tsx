@@ -13,7 +13,7 @@ function LoginContent() {
   return (
     <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-12">
       <Link href="/" className="flex flex-col items-center gap-6 mb-12">
-        <div className="w-20 h-20 bg-indigo-600 rounded-lg flex items-center justify中心 text-white font-bold text-4xl">E</div>
+        <div className="w-20 h-20 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-4xl">E</div>
         <span className="text-2xl font-bold text-gray-900 dark:text-white">English Learning</span>
       </Link>
       {error && (
