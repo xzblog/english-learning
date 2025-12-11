@@ -8,7 +8,8 @@ import { Search } from "lucide-react";
 import type { Word, WordProgress } from "@/types";
 
 // Fetch words from API (paginated)
-const fetchWordsPage = async (level: string, query: string, letter: string, page: number) => {
+type VocabPageResp = { words: Word[]; total: number; page: number; totalPages: number };
+const fetchWordsPage = async (level: string, query: string, letter: string, page: number): Promise<VocabPageResp> => {
   const params = new URLSearchParams();
   params.set("level", level);
   if (query) params.set("query", query);
@@ -17,7 +18,7 @@ const fetchWordsPage = async (level: string, query: string, letter: string, page
   params.set("limit", "200");
   const res = await fetch(`/api/vocabulary?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch vocabulary");
-  return res.json();
+  return (await res.json()) as VocabPageResp;
 };
 
 // Fetch user progress
@@ -46,16 +47,16 @@ function VocabularyContent() {
   const queryClient = useQueryClient();
 
   // Data fetching (infinite)
-  type VocabPageResp = { words: Word[]; total: number; page: number; totalPages: number };
   const {
     data: wordsPages,
     isLoading: isLoadingWords,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery<VocabPageResp>({
+  } = useInfiniteQuery({
     queryKey: ["vocabulary", level, query, letterFilter],
     queryFn: ({ pageParam = 1 }) => fetchWordsPage(level, query, letterFilter, pageParam as number),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const next = lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined;
       return next;
