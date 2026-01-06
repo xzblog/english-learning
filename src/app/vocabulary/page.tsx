@@ -9,11 +9,12 @@ import type { Word, WordProgress } from "@/types";
 
 // Fetch words from API (paginated)
 type VocabPageResp = { words: Word[]; total: number; page: number; totalPages: number };
-const fetchWordsPage = async (level: string, query: string, letter: string, page: number): Promise<VocabPageResp> => {
+const fetchWordsPage = async (level: string, query: string, letter: string, status: string, page: number): Promise<VocabPageResp> => {
   const params = new URLSearchParams();
   params.set("level", level);
   if (query) params.set("query", query);
   if (letter && letter !== "all") params.set("letter", letter);
+  if (status && status !== "all") params.set("status", status);
   params.set("page", String(page));
   params.set("limit", "200");
   const res = await fetch(`/api/vocabulary?${params.toString()}`);
@@ -54,8 +55,8 @@ function VocabularyContent() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["vocabulary", level, query, letterFilter],
-    queryFn: ({ pageParam = 1 }) => fetchWordsPage(level, query, letterFilter, pageParam as number),
+    queryKey: ["vocabulary", level, query, letterFilter, statusFilter],
+    queryFn: ({ pageParam = 1 }) => fetchWordsPage(level, query, letterFilter, statusFilter, pageParam as number),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const next = lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined;
@@ -86,7 +87,7 @@ function VocabularyContent() {
     },
   });
 
-  // Processing words with filters (only status filter on client)
+  // Processing words with filters (now all server-side)
   const words: Word[] = (wordsPages?.pages || []).flatMap((p) => p.words) || [];
   const progressMap: Record<string, WordProgress> = {};
   if (progressData) {
@@ -95,15 +96,7 @@ function VocabularyContent() {
     });
   }
 
-  const filteredWords = words.filter((word) => {
-    const status = progressMap[word.id]?.status || "new";
-    if (statusFilter !== "all") {
-      if (statusFilter === "new" && status !== "new") return false;
-      if (statusFilter === "learning" && status !== "learning" && status !== "reviewing") return false;
-      if (statusFilter === "mastered" && status !== "mastered") return false;
-    }
-    return true;
-  });
+  const filteredWords = words;
 
   // Infinite scroll observer
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -119,7 +112,7 @@ function VocabularyContent() {
     });
     io.observe(el);
     return () => io.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, level, query, letterFilter]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, level, query, letterFilter, statusFilter]);
 
   // Sync level to URL on change (avoid loops)
   useEffect(() => {
