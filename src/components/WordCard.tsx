@@ -236,7 +236,7 @@ export function WordCard({
                     <p className="text-gray-800 dark:text-gray-200 mb-1 flex justify-between">
                       {ex.en}
                       <button onClick={() => speak(ex.en)}>
-                        <Volume2 className="w-3 h-3 text-gray-400 hover:text-gray-600" />
+                        <Volume2 className="w-6 h-6 text-gray-400 hover:text-gray-600" />
                       </button>
                     </p>
                     <p className="text-gray-500 dark:text-gray-400">{ex.cn}</p>
